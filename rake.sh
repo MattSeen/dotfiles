@@ -1,4 +1,3 @@
-
 # bash completion for rake
 #
 # some code from on Jonathan Palardy's http://technotales.wordpress.com/2009/09/18/rake-completion-cache/
