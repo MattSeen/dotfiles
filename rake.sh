@@ -27,7 +27,7 @@ function _rake_cache_path() {
 }
 
 function rake_cache_store() {
-  rake -T > "$(_rake_cache_path)"
+  rake --tasks --silent > "$(_rake_cache_path)"
 }
 
 function rake_cache_clear() {
