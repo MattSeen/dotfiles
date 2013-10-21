@@ -4,15 +4,15 @@
   # http://stackoverflow.com/questions/7066325/how-to-list-show-git-aliases#answer-7067489
   alias	=   config --get-regexp '^alias.*'
 
-  s		  =   status
-	ss		=   status -s
+  s     =  status
+  ss    =  status -s
 
-	co		= 	commit
-	com 	= 	commit -m
-	coma 	= 	commit -am
+  co    =  commit
+  com   =  commit -m
+  coma  =  commit -am
 	
-	a		  =	  add
-  aa    =   add --all
+  a     =  add
+  aa    =  add --all
 
   # A better git log (subjective obviously)
   # https://coderwall.com/p/euwpig?i=3&p=1&t=git
@@ -21,4 +21,4 @@
 [core]
   # Use sublime as your default git editor
   # http://stackoverflow.com/questions/8951275/git-config-core-editor-how-to-make-sublime-text-the-default-editor-for-git-on#answer-9408117
-	editor = 'C:/Program Files/Sublime Text 3/sublime_text.exe' -w
+  editor = 'C:/Program Files/Sublime Text 3/sublime_text.exe' -w
