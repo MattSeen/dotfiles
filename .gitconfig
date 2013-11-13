@@ -23,7 +23,7 @@
   outgoing    =    log @{upstream}..
 
   # http://stackoverflow.com/a/3338774/1367612
-  notpushed   =    git log --branches --not --remotes --simplify-by-decoration --decorate --oneline
+  notpushed   =    log --branches --not --remotes --simplify-by-decoration --decorate --oneline
 
 [core]
   # Use sublime as your default git editor
