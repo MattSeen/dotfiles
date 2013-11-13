@@ -22,6 +22,9 @@
   incoming    =    !git remote update --prune; git log ..@{upstream}
   outgoing    =    log @{upstream}..
 
+  # http://stackoverflow.com/a/3338774/1367612
+  notpushed   =    git log --branches --not --remotes --simplify-by-decoration --decorate --oneline
+
 [core]
   # Use sublime as your default git editor
   # http://stackoverflow.com/questions/8951275/git-config-core-editor-how-to-make-sublime-text-the-default-editor-for-git-on#answer-9408117
