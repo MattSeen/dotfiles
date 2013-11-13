@@ -18,6 +18,10 @@
   # https://coderwall.com/p/euwpig?i=3&p=1&t=git
   lg    =   log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --
 
+  # Came from Conor Carr of Pilz Ireland
+  incoming    =    !git remote update -p; git log ..@{u}
+  outgoing    =    log @{u}..
+
 [core]
   # Use sublime as your default git editor
   # http://stackoverflow.com/questions/8951275/git-config-core-editor-how-to-make-sublime-text-the-default-editor-for-git-on#answer-9408117
