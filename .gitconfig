@@ -5,12 +5,12 @@
   alias	=   config --get-regexp '^alias.*'
 
   s     =  status
-  ss    =  status -s
+  ss    =  status --short
 
   co    =  commit
-  com   =  commit -m
-  coma  =  commit -am
-	
+  com   =  commit --message
+  coma  =  commit --all --message
+
   a     =  add
   aa    =  add --all
 
@@ -19,8 +19,8 @@
   lg    =   log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --
 
   # Came from Conor Carr of Pilz Ireland
-  incoming    =    !git remote update -p; git log ..@{u}
-  outgoing    =    log @{u}..
+  incoming    =    !git remote update --prune; git log ..@{upstream}
+  outgoing    =    log @{upstream}..
 
 [core]
   # Use sublime as your default git editor
