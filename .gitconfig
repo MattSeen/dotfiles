@@ -18,6 +18,11 @@
   # https://coderwall.com/p/euwpig?i=3&p=1&t=git
   lg    =   log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --
 
+  # Little statistic viewer.
+  # Show running total on number of commits
+  # http://stackoverflow.com/questions/1486819/which-git-commit-stats-are-easy-to-pull
+  winning = shortlog --summary --numbered --email
+
   # Came from Conor Carr of Pilz Ireland
   incoming    =    !git remote update --prune; git log ..@{upstream}
   outgoing    =    log @{upstream}..
@@ -28,4 +33,4 @@
 [core]
   # Use sublime as your default git editor
   # http://stackoverflow.com/questions/8951275/git-config-core-editor-how-to-make-sublime-text-the-default-editor-for-git-on#answer-9408117
-  editor = 'C:/Program Files/Sublime Text 3/sublime_text.exe' -w
+  editor = 'C:/Program Files/Sublime Text 2/sublime_text.exe' --wait --new-window
