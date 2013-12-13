@@ -8,6 +8,8 @@ alias ls='ls -F --color'
 alias sublime='/c/Program\ Files/Sublime\ Text\ 2/sublime_text.exe --new-window'
 alias cls='clear'
 
+# alias runguard='bundle exec guard -i -g'
+
 
 # # # # # # # # # # # # # # # #
 # Rake autocomplete task names
