@@ -32,7 +32,7 @@
   # http://stackoverflow.com/a/3338774/1367612
   unpushed   =    log --branches --not --remotes --decorate=full --oneline
 
-  # Wipe out all local changes you have made, be careful!
+  # Clear out any local changes you have made to file in your git repo.
   wipelc = checkout .
 
 [core]
