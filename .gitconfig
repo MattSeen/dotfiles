@@ -33,7 +33,7 @@
   unpushed   =    log --branches --not --remotes --decorate=full --oneline
 
   # Wipe out all local changes you have made, be careful!
-  wipeLC = checkout .
+  wipelc = checkout .
 
 [core]
   # Use sublime as your default git editor
