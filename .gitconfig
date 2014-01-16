@@ -32,6 +32,9 @@
   # http://stackoverflow.com/a/3338774/1367612
   unpushed   =    log --branches --not --remotes --decorate=full --oneline
 
+  # Wipe out all local changes you have made, be careful!
+  wipeLC = checkout .
+
 [core]
   # Use sublime as your default git editor
   # http://stackoverflow.com/questions/8951275/git-config-core-editor-how-to-make-sublime-text-the-default-editor-for-git-on#answer-9408117
