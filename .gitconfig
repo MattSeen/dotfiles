@@ -1,52 +1,51 @@
 [alias]
-  # Found on Stackoverflow
-  # List all available aliases
-  # http://stackoverflow.com/questions/7066325/how-to-list-show-git-aliases#answer-7067489
-  alias	=   config --get-regexp '^alias.*'
+    # Source: http://stackoverflow.com/questions/7066325/how-to-list-show-git-aliases#answer-7067489
+    # Found on stackoverflow list all available aliases ==
+    alias   =   config --get-regexp '^alias.*'
 
-  s     =  status
-  ss    =  status --short
+    s   =   status
+    ss  =   status --short
 
-  co    =  commit
-  com   =  commit --message
-  coma  =  commit --all --message
+    co  =   commit
+    com =   commit --message
+    coma    =   commit --all --message
 
-  a     =  add
-  aa    =  add --all
+    a   =   add
+    aa  =   add --all
 
-  branches = branch --all
+    branches    =   branch --all
 
-  # A better git log (subjective obviously)
-  # https://coderwall.com/p/euwpig?i=3&p=1&t=git
-  lg    =   log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --
+    # Source: https://coderwall.com/p/euwpig?i=3&p=1&t=git
+    # A better git log (subjective obviously)   ==
+    lg          =    log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --
 
-  # I do this often, need to see the last x number of commits
-  logn  =   log --max-count
+    # I do this often, need to see the last x number of commits ==
+    logn    =    log --max-count
 
-  # Little statistic viewer.
-  # Show running total on number of commits
-  # http://stackoverflow.com/questions/1486819/which-git-commit-stats-are-easy-to-pull
-  winning = shortlog --summary --numbered --email
+    # Source: http://stackoverflow.com/questions/1486819/which-git-commit-stats-are-easy-to-pull
+    # Show running total of number of commits per dev   ==
+    winning =   shortlog --summary --numbered --email
 
-  # The repositories running total of commits
-  # http://oli.jp/2012/git-powerup/
-  total-commits = git log --all --pretty=oneline | wc --lines
+    # Source: http://oli.jp/2012/git-powerup/
+    # The repositories running total of commits ==
+    total-commits = git log --all --pretty=oneline | wc -l
 
-  # Came from Conor Carr of Pilz Ireland
-  incoming    =    !git remote update --prune; git log ..@{upstream}
-  outgoing    =    log @{upstream}..
+    # Came from Conor Carr of Pilz Ireland  ==
+    incoming    =   !git remote update --prune; git log ..@{upstream}
+    outgoing    =   log @{upstream}..
 
-  # http://stackoverflow.com/a/3338774/1367612
-  unpushed   =    log --branches --not --remotes --decorate=full --oneline
+    # Source: http://stackoverflow.com/a/3338774/1367612
+    unpushed    =   log --branches --not --remotes --decorate=full --oneline
 
-  # Clear out any local changes you have made to file in your git repo.
-  wipelc = checkout .
+    # Wipe out all local changes you have made, be careful! ==
+    wipelc  =   checkout .
 
-  # Print the associated description of a branch.
-  # Set descriptions with git branch --edit-description
-  # http://stackoverflow.com/a/8858853
-  # http://stackoverflow.com/a/12142066
-  description = !git config branch.`git rev-parse --abbrev-ref HEAD`.description
+    # Source: http://stackoverflow.com/a/8858853
+    # Source: http://stackoverflow.com/a/12142066
+    # Print the associated description of a branch. ==
+    # Set descriptions with git branch --edit-description   ==
+    description =   !git config branch.`git rev-parse --abbrev-ref HEAD`.description
+
 
 [core]
   # Use sublime as your default git editor
