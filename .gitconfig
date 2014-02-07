@@ -35,6 +35,12 @@
   # Clear out any local changes you have made to file in your git repo.
   wipelc = checkout .
 
+  # Print the associated description of a branch.
+  # Set descriptions with git branch --edit-description
+  # http://stackoverflow.com/a/8858853
+  # http://stackoverflow.com/a/12142066
+  description = config branch.`git rev-parse --abbrev-ref HEAD`.description
+
 [core]
   # Use sublime as your default git editor
   # http://stackoverflow.com/questions/8951275/git-config-core-editor-how-to-make-sublime-text-the-default-editor-for-git-on#answer-9408117
