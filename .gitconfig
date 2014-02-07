@@ -20,10 +20,17 @@
   # https://coderwall.com/p/euwpig?i=3&p=1&t=git
   lg    =   log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --
 
+  # I do this often, need to see the last x number of commits
+  logn  =   log -n
+
   # Little statistic viewer.
   # Show running total on number of commits
   # http://stackoverflow.com/questions/1486819/which-git-commit-stats-are-easy-to-pull
   winning = shortlog --summary --numbered --email
+
+  # The repositories running total of commits
+  # http://oli.jp/2012/git-powerup/
+  total-commits = git log -a --pretty=oneline | wc -l
 
   # Came from Conor Carr of Pilz Ireland
   incoming    =    !git remote update --prune; git log ..@{upstream}
