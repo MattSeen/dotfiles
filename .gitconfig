@@ -39,7 +39,7 @@
   # Set descriptions with git branch --edit-description
   # http://stackoverflow.com/a/8858853
   # http://stackoverflow.com/a/12142066
-  description = config branch.`git rev-parse --abbrev-ref HEAD`.description
+  description = !git config branch.`git rev-parse --abbrev-ref HEAD`.description
 
 [core]
   # Use sublime as your default git editor
