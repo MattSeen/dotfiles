@@ -11,10 +11,10 @@ sanitize_names () {
 }
 
 pretty_print_branch_descriptions () {
-    while IFS= read -r LINE; do
-        echo "Branch: $LINE";
+    while IFS= read -r BRANCH_NAME; do
+        echo "Branch: $BRANCH_NAME";
         echo "Description:"
-        echo "$(git config branch."$LINE".description)";
+        echo "$(git config branch."$BRANCH_NAME".description)";
         echo ""
     done
 }
