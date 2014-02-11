@@ -4,7 +4,8 @@
     alias   =   config --get-regexp '^alias.*'
 
     s   =   status
-    ss  =   status --short
+    ss  =   status --short 
+    ssb  =   status --short --branch 
 
     co  =   commit
     com =   commit --message
