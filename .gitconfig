@@ -51,6 +51,7 @@
     # Set descriptions with git branch --edit-description   ==
     description =   !git config branch.`git rev-parse --abbrev-ref HEAD`.description
 
+    describeall = !~/list_all_branch_descriptions.sh
 
 [core]
   # Use sublime as your default git editor
