@@ -53,6 +53,8 @@
 
     describeall = !~/list_all_branch_descriptions.sh
 
+    edit_description = branch --edit-description
+
 [core]
   # Use sublime as your default git editor
   # http://stackoverflow.com/questions/8951275/git-config-core-editor-how-to-make-sublime-text-the-default-editor-for-git-on#answer-9408117
