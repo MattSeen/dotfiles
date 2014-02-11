@@ -16,6 +16,8 @@
     # Source: https://ochronus.com/git-tips-from-the-trenches
     ds = diff --staged
 
+    pr  =   pull --rebase
+
     branches    =   branch --all
 
     # Source: https://coderwall.com/p/euwpig?i=3&p=1&t=git
