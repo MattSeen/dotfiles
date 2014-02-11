@@ -53,7 +53,7 @@
 
     describeall = !~/list_all_branch_descriptions.sh
 
-    edit_description = branch --edit-description
+    editdescription = branch --edit-description
 
 [core]
   # Use sublime as your default git editor
