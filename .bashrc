@@ -31,6 +31,7 @@ source /c/DEVUtils/arcanist/arcanist/resources/shell/bash-completion
 # This is when using git bash and 
 # ansicon together for better
 # colorizing of output
+# Source: https://coderwall.com/p/9fdgsa
 # # # # # # # # # # # # # # # # #
 
 alias ccat='pygmentize -O style=monokai -f terminal -g'
