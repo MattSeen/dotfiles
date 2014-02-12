@@ -27,11 +27,24 @@ sanitize_names () {
 }
 
 pretty_print_branch_descriptions () {
+    local UNDERLINE="\e[4m"
+    local BOLD="\e[1m"
+    local RESET="\e[0m"
+
+    local RED="\e[31m"
+    local GREEN="\e[32m"
+
     while IFS= read -r BRANCH_NAME; do
-        echo "Branch: $BRANCH_NAME";
-        echo "Description:"
-        echo "$(git config branch."$BRANCH_NAME".description)";
-        echo ""
+        local branchDescription="$(git config branch."$BRANCH_NAME".description)";
+
+        if [[ -n "$branchDescription" ]] 
+        then
+	        echo -e "Branch: $BOLD$RED$BRANCH_NAME$RESET";
+	        echo -e "Description:"
+	        echo -e "$GREEN$branchDescription$RESET"
+
+	        echo ""
+        fi
     done
 }
 
