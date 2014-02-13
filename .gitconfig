@@ -11,6 +11,10 @@
     com =   commit --message
     coma    =   commit --all --message
 
+    # Source: http://stackoverflow.com/questions/2845731/how-to-uncommit-my-last-commit-in-git
+    # Going to keep it a soft commit for the moment.
+    uncommit =  reset --soft HEAD^
+
     a   =   add
     aa  =   add --all
 
