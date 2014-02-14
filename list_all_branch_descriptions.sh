@@ -9,7 +9,7 @@
 # USAGE
 #
 # execute "git describeall" (or whatever your alias is) to see a list of all 
-# the branch descriptions.
+# the branch descriptions (for the branches which have descriptions)
 
 branch_descriptions () {
     get_branch_names | sanitize_names | pretty_print_branch_descriptions
