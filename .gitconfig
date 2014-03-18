@@ -60,6 +60,12 @@
 
     editdescription = branch --edit-description
 
+    # Source: http://www.element84.com/using-git-log-to-show-last-months-commits.html
+    commitslastmonth = !git log --author=\"`git config user.name`\" --before={`date "+%Y-%m-01"`} --after={`date --date=\"$(date +%Y-%m-1) -1 month\" \"+%Y-%m-01\"`} --reverse --pretty=format:\"%cd %h  %s\" --date=short
+
+    # Source: http://stackoverflow.com/a/5178739/1367612
+    today = log --author=\"`git config user.name`\" --since=\"6am\"
+
 [core]
   # Use sublime as your default git editor
   # http://stackoverflow.com/questions/8951275/git-config-core-editor-how-to-make-sublime-text-the-default-editor-for-git-on#answer-9408117
