@@ -63,6 +63,8 @@
     # Source: http://www.element84.com/using-git-log-to-show-last-months-commits.html
     commitslastmonth = !git log --author=\"`git config user.name`\" --before={`date "+%Y-%m-01"`} --after={`date --date=\"$(date +%Y-%m-1) -1 month\" \"+%Y-%m-01\"`} --reverse --pretty=format:\"%cd %h  %s\" --date=short
 
+    commitsthismonth = !git log --author=\"`git config user.name`\" --before=now --after={`date "+%Y-%m-1"`} --reverse --pretty=format:\"%cd %h  %s\" --date=short
+
     # Source: http://stackoverflow.com/a/5178739/1367612
     today = log --author=\"`git config user.name`\" --since=\"6am\"
 
