@@ -18,6 +18,12 @@
     a   =   add
     aa  =   add --all
 
+    rb   =  rebase
+    rba  =  rebase --abort
+    rbc  =  rebase --continue
+    rbs  =  rebase --skip
+    
+
     # Source: https://ochronus.com/git-tips-from-the-trenches
     ds = diff --staged
 
