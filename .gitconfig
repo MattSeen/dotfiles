@@ -60,11 +60,11 @@
     # Source: http://stackoverflow.com/a/12142066
     # Print the associated description of a branch. ==
     # Set descriptions with git branch --edit-description   ==
-    description =   !git config branch.`git rev-parse --abbrev-ref HEAD`.description
+    descriptionview =   !git config branch.`git rev-parse --abbrev-ref HEAD`.description
 
-    describeall = !~/list_all_branch_descriptions.sh
+    descriptionall = !~/list_all_branch_descriptions.sh
 
-    editdescription = branch --edit-description
+    descriptionedit = branch --edit-description
 
     # Source: http://www.element84.com/using-git-log-to-show-last-months-commits.html
     commitslastmonth = !git log --author=\"`git config user.name`\" --before={`date "+%Y-%m-01"`} --after={`date --date=\"$(date +%Y-%m-1) -1 month\" \"+%Y-%m-01\"`} --reverse --pretty=format:\"%cd %h  %s\" --date=short
@@ -72,12 +72,12 @@
     commitsthismonth = !git log --author=\"`git config user.name`\" --before=now --after={`date "+%Y-%m-1"`} --reverse --pretty=format:\"%cd %h  %s\" --date=short
 
     # Source: http://stackoverflow.com/a/5178739/1367612
-    today = log --author=\"`git config user.name`\" --since=\"6am\"
+    commitstoday = log --author=\"`git config user.name`\" --since=\"6am\"
 
     # Source: http://www.commandlinefu.com/commands/view/12842/get-a-list-of-all-todofixme-tasks-left-to-be-done-in-your-git-project
-    findtodos = grep --extended-regexp --ignore-case --line-number --break --heading --color=auto "TODO:|FIXME:"
-    counttodos =  grep --extended-regexp --ignore-case --line-number --count "TODO:|FIXME:"
-    fileswithtodos = grep --extended-regexp --ignore-case --name-only "TODO:|FIXME:"
+    todosfind = grep --extended-regexp -I --line-number --break --heading --color=auto "TODO|FIXME"
+    todoscount =  grep --extended-regexp -I --line-number --count "TODO|FIXME"
+    todosnamefiles = grep --extended-regexp -I --name-only "TODO|FIXME"
 
 [core]
   # Use sublime as your default git editor
