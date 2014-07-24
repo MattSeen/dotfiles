@@ -6,6 +6,12 @@
 alias catn='cat --number'
 alias ls='ls -F --color'
 alias sublime='/c/Program\ Files/Sublime\ Text\ 2/sublime_text.exe --new-window'
+
+# Source: http://justinlilly.com/dotfiles/zsh.html
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
+
 alias cls='clear'
 
 alias runguard='bundle exec guard'
