@@ -75,7 +75,9 @@
     today = log --author=\"`git config user.name`\" --since=\"6am\"
 
     # Source: http://www.commandlinefu.com/commands/view/12842/get-a-list-of-all-todofixme-tasks-left-to-be-done-in-your-git-project
-    findtodos = grep -EI "TODO|FIXME"
+    findtodos = grep --extended-regexp --ignore-case --line-number --heading --color=auto "TODO:|FIXME:"
+    counttodos =  grep --extended-regexp --ignore-case --line-number --count "TODO:|FIXME:"
+
 
 [core]
   # Use sublime as your default git editor
