@@ -16,7 +16,6 @@ alias ....='cd ../../..'
 
 alias runguard='bundle exec guard'
 
-
 # # # # # # # # # # # # # # # #
 # Git commands that didn't work in .gitconfig
 # # # # # # # # # # # # # # # #
@@ -44,12 +43,14 @@ source /c/DEVUtils/arcanist/arcanist/resources/shell/bash-completion
 # This is when using git bash and
 # ansicon together for better
 # colorizing of output
+# Source: https://coderwall.com/p/9fdgsa
 # # # # # # # # # # # # # # # # #
 alias ccat='pygmentize -O style=monokai -f terminal -g'
 source ~/git-prompt.sh
 
 export PS1='\[\033[01;32m\]\u\[\033[01;34m\] \w\[\033[31m\]$(__git_ps1 " (%s)")\[\033[01;34m\]$\[\033[00m\] '
 
+# Source: http://code-worrier.com/blog/autocomplete-git/
 if [ -f ~/.git-completion.bash ]; then
   . ~/.git-completion.bash
 fi
