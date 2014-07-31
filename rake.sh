@@ -39,6 +39,7 @@ export COMP_WORDBREAKS=${COMP_WORDBREAKS//:}
 
 function _rakecomplete() {
   # error if no Rakefile
+  # don't know why code by @turadg doesn't work, Windows maybe?
   if [ ! -e "rakefile.rb" ]; then
     echo "missing Rakefile"
     return 1
