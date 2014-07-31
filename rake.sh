@@ -2,7 +2,7 @@
 #
 # some code from on Jonathan Palardy's http://technotales.wordpress.com/2009/09/18/rake-completion-cache/
 # and http://pastie.org/217324 found http://ragonrails.com/post/38905212/rake-bash-completion-ftw
-# 
+#
 # For details and discussion
 # http://turadg.aleahmad.net/2011/02/bash-completion-for-rake-tasks/
 #
@@ -10,7 +10,7 @@
 #
 # Place in your bash completions.d and/or source in your .bash_profile
 # If on a Mac with Homebrew, try "brew install bash-completion"
-# 
+#
 # USAGE
 #
 # Type 'rake' and hit tab twice to get completions.
@@ -35,7 +35,7 @@ function rake_cache_clear() {
   rm -f tmp/cache/.rake_t_cache
 }
 
-export COMP_WORDBREAKS=${COMP_WORDBREAKS/\:/}
+export COMP_WORDBREAKS=${COMP_WORDBREAKS//:}
 
 function _rakecomplete() {
   # error if no Rakefile
@@ -50,7 +50,18 @@ function _rakecomplete() {
   fi
 
   local tasks=`awk '{print $2}' "$(_rake_cache_path)"`
-  COMPREPLY=($(compgen -W "${tasks}" -- ${COMP_WORDS[COMP_CWORD]}))
+
+  # Bash autocomplete would mess up when a colon was contained
+  # in the task name. Interim solution I found on:
+  # Source: http://willcode4beer.com/tips.jsp?set=tabMaven
+  cur=${COMP_WORDS[COMP_CWORD]}
+  colonprefixes=${cur%"${cur##*:}"}
+  COMPREPLY=( $(compgen -W "${tasks}"  -- $cur))
+  local i=${#COMPREPLY[*]}
+  while [ $((--i)) -ge 0 ]; do
+    COMPREPLY[$i]=${COMPREPLY[$i]#"$colonprefixes"}
+  done
+
   return 0
 }
 
