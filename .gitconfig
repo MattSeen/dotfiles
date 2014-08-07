@@ -31,7 +31,7 @@
 
     branches    =   branch --all
 
-    branchRename = branch -m 
+    branchrename = branch --move
 
     # Source: https://coderwall.com/p/euwpig?i=3&p=1&t=git
     # A better git log (subjective obviously)   ==
