@@ -1,15 +1,18 @@
+#!/bin/bash
 # bash command to list all git branch descriptions for you current repository
 #
 # INSTALL
 #
-# 1) Download and place in your home directory.
-# 2) Create a git alias like follows:
-#     describeall = !~/list_all_branch_descriptions.sh
-# 
+# Only recently discovered that git scans your scripts directory when
+# searching for commands to run. You can just download this file and place
+# it in your /usr/local/bin/ folder or if you are on windows, place them in a
+# folder on you path. I've created a folder called git-scripts in my home folder
+# and placed my scripts there. The script files need to conform to a file name
+# pattern of git-<command name>. Mine is called description-view-all
+#
 # USAGE
 #
-# execute "git describeall" (or whatever your alias is) to see a list of all 
-# the branch descriptions (for the branches which have descriptions)
+# execute "git description-view-all" to see a list of all the branch descriptions.
 
 branch_descriptions () {
     get_branch_names | sanitize_names | pretty_print_branch_descriptions
@@ -37,7 +40,7 @@ pretty_print_branch_descriptions () {
     while IFS= read -r BRANCH_NAME; do
         local branchDescription="$(git config branch."$BRANCH_NAME".description)";
 
-        if [[ -n "$branchDescription" ]] 
+        if [[ -n "$branchDescription" ]]
         then
 	        echo -e "Branch: $BOLD$RED$BRANCH_NAME$RESET";
 	        echo -e "Description:"
