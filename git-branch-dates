@@ -1,5 +1,6 @@
 #!/bin/bash
 # Straight forward script that lists all your git branch with the age prepended at the start.
+# Source: http://www.commandlinefu.com/commands/view/2345/show-git-branches-by-date-useful-for-showing-active-branches
 
 for k in `git branch|sed s/^..//`;do
     echo -e `git log -1 --pretty=format:"%Cgreen%cr%Creset" "$k"`\\t"$k";
