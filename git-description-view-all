@@ -8,7 +8,7 @@
 # it in your /usr/local/bin/ folder or if you are on windows, place them in a
 # folder on you path. I've created a folder called git-scripts in my home folder
 # and placed my scripts there. The script files need to conform to a file name
-# pattern of git-<command name>. Mine is called description-view-all
+# pattern of git-<command name>. Mine is called git-description-view-all
 #
 # USAGE
 #
