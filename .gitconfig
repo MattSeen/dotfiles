@@ -4,8 +4,8 @@
     alias   =   config --get-regexp '^alias.*'
 
     s   =   status
-    ss  =   status --short 
-    ssb  =   status --short --branch 
+    ss  =   status --short
+    ssb  =   status --short --branch
 
     co  =   commit
     com =   commit --message
@@ -18,11 +18,10 @@
     a   =   add
     aa  =   add --all
 
-    rb   =  rebase
-    rba  =  rebase --abort
-    rbc  =  rebase --continue
-    rbs  =  rebase --skip
-    
+    rb  =   rebase
+    rba =   rebase --abort
+    rbc =   rebase --continue
+    rbs =   rebase --skip
 
     # Source: https://ochronus.com/git-tips-from-the-trenches
     ds = diff --staged
@@ -32,6 +31,9 @@
     branches    =   branch --all
 
     branchrename = branch --move
+
+    branchesdiffed = !git branch | grep -i "indiff"
+    branchesundiffed = !git branch | grep -v -i "indiff"
 
     # Source: https://coderwall.com/p/euwpig?i=3&p=1&t=git
     # A better git log (subjective obviously)   ==
@@ -63,8 +65,6 @@
     # Print the associated description of a branch. ==
     # Set descriptions with git branch --edit-description   ==
     descriptionview =   !git config branch.`git rev-parse --abbrev-ref HEAD`.description
-
-    descriptionall = !~/list_all_branch_descriptions.sh
 
     descriptionedit = branch --edit-description
 
