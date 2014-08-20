@@ -35,9 +35,14 @@
     branchesdiffed = !git branch | grep -i "indiff"
     branchesundiffed = !git branch | grep -v -i "indiff"
 
+    # Source: http://stackoverflow.com/a/4755244/1367612
+    # Since description is used by other git features want a different
+    # area for my own meta data
+    branchnoteset = !git config branch.`git rev-parse --abbrev-ref HEAD`.note
+
     # Source: https://coderwall.com/p/euwpig?i=3&p=1&t=git
     # A better git log (subjective obviously)   ==
-    lg          =    log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --
+    lg  =  log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --
 
     # I do this often, need to see the last x number of commits ==
     logn    =    log --max-count
