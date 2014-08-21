@@ -38,7 +38,7 @@
     # Source: http://stackoverflow.com/a/4755244/1367612
     # Since description is used by other git features want a different
     # area for my own meta data
-    branchnoteset = !git config branch.`git rev-parse --abbrev-ref HEAD`.note
+    branchnote = !git config branch.`git rev-parse --abbrev-ref HEAD`.note
 
     # Source: https://coderwall.com/p/euwpig?i=3&p=1&t=git
     # A better git log (subjective obviously)   ==
