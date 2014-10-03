@@ -5,13 +5,13 @@ import sys
 from types import *
 from datetime import datetime
 
-parser = argparse.ArgumentParser(description='Do a merge thing.')
+parser = argparse.ArgumentParser(prog="merge-associate", 
+    description='Manually associate files if a rename does not get picked up',
+    epilog="NB: See git ls-files --stage")
 
-parser.add_argument('data', nargs=3, type=str)
-# parser.add_argument('--filename', type=str, required=True)
-# parser.add_argument('--base', type=str, required=True)
-# parser.add_argument('--theirs', type=str, required=True)
-
+parser.add_argument('target', nargs=1, type=str, help="The new file name")
+parser.add_argument('base', nargs=1, type=str, help="The base index + the old file name")
+parser.add_argument('changes', nargs=1, type=str, help="The advanced index + the old file name")
 
 DEBUG = True
 TREE_INDEX_NUMBER_PATTERN = re.compile('^:(.):')
