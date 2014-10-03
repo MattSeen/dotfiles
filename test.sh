@@ -1,3 +1,8 @@
+#!/bin/bash
+# The following script creates a directory which will be a state where a rename
+# will cause a conflict on either a rebase or a merge.
+# This will allow you to test out the this script. 
+
 testDir="newDir"
 testFileName="README.txt"
 subDir="different/directory/"
@@ -60,3 +65,5 @@ git commit -am "OTHER_BRANCH commit 2"
 
 echo "new content!" >> $testFileName
 git commit -am "OTHER_BRANCH commit 3"
+
+# Now do a rebase or merge (best to do this manually)
