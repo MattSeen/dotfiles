@@ -102,7 +102,7 @@ def get_mode_and_sha(spec, tree, basename):
             if array[2] == re.match("INDEX:(.)", tree).group(1):
                 current_index = array
             else:
-                if DEBUG: log("INDEX was (Just so you know):", re.match("INDEX:(.)", tree).group(1))
+                log("INDEX was (Just so you know):", re.match("INDEX:(.)", tree).group(1))
 
         if not current_index:
             log("Big Problem?:", array)
