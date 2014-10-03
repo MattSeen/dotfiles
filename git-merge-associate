@@ -3,7 +3,6 @@ import argparse
 import re
 import sys
 from types import *
-from datetime import datetime
 
 parser = argparse.ArgumentParser(prog="merge-associate", 
     description='Manually associate files if a rename does not get picked up',
@@ -12,8 +11,9 @@ parser = argparse.ArgumentParser(prog="merge-associate",
 parser.add_argument('target', nargs=1, type=str, help="The new file name")
 parser.add_argument('base', nargs=1, type=str, help="The base index + the old file name")
 parser.add_argument('changes', nargs=1, type=str, help="The advanced index + the old file name")
+parser.add_argument('--verbose', action='store_true', required=False, help="Show all DEBUG output")
 
-DEBUG = True
+DEBUG = False
 TREE_INDEX_NUMBER_PATTERN = re.compile('^:(.):')
 BASENAME_PATTERN = re.compile('^:\d:(.*)')
 
@@ -138,22 +138,13 @@ def update_git_index(TARGET, BASE, THEIRS):
 
     execute(["git", "checkout", "-m", "--", TARGET.basename])
 
-def main(data):
-
-    current_time = str(datetime.now())
-    print "-" * len(current_time)
-    print current_time
-    print "-" * len(current_time)
-    print ""
-
-    # Validate inputs
-
+def main(tar, bas, chang):
     TARGET = ""
     BASE = ""
     THEIRS = ""
 
-    for VAR in data:
-        spec, tree, basename = get_tree(VAR)
+    for VAR in tar, bas, chang:
+        spec, tree, basename = get_tree(VAR[0])
         mode, sha = get_mode_and_sha(spec, tree, basename)
 
         if type(TARGET) is StringType:
@@ -167,4 +158,6 @@ def main(data):
 
 if __name__ == '__main__':
     args = parser.parse_args()
-    main(args.data)
+    if args.verbose:
+        DEBUG = True
+    main(args.target, args.base, args.changes)
