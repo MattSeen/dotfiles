@@ -136,7 +136,17 @@ def update_git_index(TARGET, BASE, THEIRS):
         log(err)
         fail_script()
 
-    execute(["git", "checkout", "-m", "--", TARGET.basename])
+    out, err = execute(["git", "checkout", "-m", "--", TARGET.basename])
+
+    if err:
+        log(err)
+        fail_script()
+
+    print """
+It would seem everything has gone well
+Now your changes will have been applied to the target file
+Resolve the merge errors and 'git rm' on the old file to continue
+"""
 
 def main(tar, bas, chang):
     TARGET = ""
