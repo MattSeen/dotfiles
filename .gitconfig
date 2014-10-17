@@ -89,9 +89,9 @@
 [core]
   # Use sublime as your default git editor
   # Source: http://stackoverflow.com/questions/8951275/git-config-core-editor-how-to-make-sublime-text-the-default-editor-for-git-on#answer-9408117
-  editor = 'C:/Program Files/Sublime Text 2/sublime_text.exe' --wait --new-window
+  editor = 'subl.exe' --wait --new-window
 [web]
-	browser = c:/Program Files/Mozilla Firefox/firefox.exe
+	browser = firefox.exe
 
 # Source: http://blog.json.codes/developer-tools/using-winmerge-with-git-in-windows/
 [diff]

@@ -5,7 +5,6 @@
 
 alias catn='cat --number'
 alias ls='ls -F --color'
-alias sublime='/c/Program\ Files/Sublime\ Text\ 2/sublime_text.exe --new-window'
 alias cls='clear'
 alias dir='ls'
 
@@ -20,24 +19,24 @@ alias runguard='bundle exec guard'
 # Git commands that didn't work in .gitconfig
 # # # # # # # # # # # # # # # #
 
-alias gitalias="cat ~/.gitconfig | sed -n '/\[alias\]/,/\[core\]/p' | grep -Ev '\[alias\]|\[core\]' | less"
+alias gitalias="cat ~/dotfiles/.gitconfig | sed -n '/\[alias\]/,/\[core\]/p' | grep -Ev '\[alias\]|\[core\]' | less"
 
 # # # # # # # # # # # # # # # #
 # Rake autocomplete task names
 # Source: https://gist.github.com/MattSeen/7704275
 # # # # # # # # # # # # # # # #
-source ~/rake.sh
+source ~/dotfiles/auto_complete/rake.sh
 
 # # # # # # # # # # # # # # # #
 # Bashmarks include
 # Repo: https://github.com/twerth/bashmarks
 # # # # # # # # # # # # # # # #
-source ~/bashmarks/bashmarks.sh
+source ~/dotfiles/tools/bashmarks/bashmarks.sh
 
 # # # # # # # # # # # # # # # #
 # Arcanist autocomplete
 # # # # # # # # # # # # # # # #
-source /c/DEVUtils/arcanist/arcanist/resources/shell/bash-completion
+source ~/dotfiles/auto_complete/arcanist-completion
 
 # # # # # # # # # # # # # # # # #
 # This is when using git bash and
@@ -46,11 +45,11 @@ source /c/DEVUtils/arcanist/arcanist/resources/shell/bash-completion
 # Source: https://coderwall.com/p/9fdgsa
 # # # # # # # # # # # # # # # # #
 alias ccat='pygmentize -O style=monokai -f terminal -g'
-source ~/git-prompt.sh
+source ~/dotfiles/git-prompt.sh
 
 export PS1='\[\033[01;32m\]\u\[\033[01;34m\] \w\[\033[31m\]$(__git_ps1 " (%s)")\[\033[01;34m\]$\[\033[00m\] '
 
 # Source: http://code-worrier.com/blog/autocomplete-git/
-if [ -f ~/.git-completion.bash ]; then
-  . ~/.git-completion.bash
+if [ -f ~/dotfiles/auto_complete/.git-completion.bash ]; then
+  . ~/dotfiles/auto_complete/.git-completion.bash
 fi
