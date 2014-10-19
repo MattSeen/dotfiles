@@ -3,8 +3,6 @@
     email = email@email.com
 [push]
     default = upstream
-[init]
-    templatedir = ~/dotfiles_git_hooks
 [alias]
     # Source: http://stackoverflow.com/questions/7066325/how-to-list-show-git-aliases#answer-7067489
     # Found on stackoverflow list all available aliases ==

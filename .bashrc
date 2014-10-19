@@ -1,4 +1,5 @@
 export PATH=$PATH:$HOME/dotfiles_git_scripts:
+export GIT_TEMPLATE_DIR=$HOME/dotfiles_git_hooks/
 
 # Was thinking about command line aliases in general today.
 # Stumbled on this article.
