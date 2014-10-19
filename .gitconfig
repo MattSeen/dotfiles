@@ -92,7 +92,7 @@
     todosnamefiles = grep --extended-regexp -I --name-only "TODO|FIXME"
 
 [core]
-  # Use sublime as your default git editor
+  # Use Sublime Text as your default git editor (build 3065 of ST3 on has the subl.exe included on Windows)
   # Source: http://stackoverflow.com/questions/8951275/git-config-core-editor-how-to-make-sublime-text-the-default-editor-for-git-on#answer-9408117
   editor = 'subl.exe' --wait --new-window
 [web]

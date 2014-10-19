@@ -22,6 +22,20 @@ I use a number of 3rd party open source projects/scripts. They can be found prim
 	- I actually forked that gist and made some updates.
 
 
+Installation
+============
+
+I have been experimenting with different installation methods and found various unworkable draw backs with each. The solution I have settled on is to follow a [guide written by Jason Karns](http://jasonkarns.com/blog/versioning-dotfiles-with-git/). He describes a succinct method of checking out a git repo with out having a .git/ folder in your home directory.
+
+I will post more informative information at a later date.
+
+Environmental variables
+=======================
+
+- Sublime Text 3 (build 3065 on) needs to be included on your path
+- Firefox needs to be included on your path
+
+
 TODO
 ====
 

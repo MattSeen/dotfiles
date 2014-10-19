@@ -1,3 +1,5 @@
+export PATH=$PATH:$HOME/git_scripts:
+
 # Was thinking about command line aliases in general today.
 # Stumbled on this article.
 #
@@ -19,24 +21,24 @@ alias runguard='bundle exec guard'
 # Git commands that didn't work in .gitconfig
 # # # # # # # # # # # # # # # #
 
-alias gitalias="cat ~/dotfiles/.gitconfig | sed -n '/\[alias\]/,/\[core\]/p' | grep -Ev '\[alias\]|\[core\]' | less"
+alias gitalias="cat ~/.gitconfig | sed -n '/\[alias\]/,/\[core\]/p' | grep -Ev '\[alias\]|\[core\]' | less"
 
 # # # # # # # # # # # # # # # #
 # Rake autocomplete task names
 # Source: https://gist.github.com/MattSeen/7704275
 # # # # # # # # # # # # # # # #
-source ~/dotfiles/auto_complete/rake.sh
+source ~/auto_complete/rake.sh
 
 # # # # # # # # # # # # # # # #
 # Bashmarks include
 # Repo: https://github.com/twerth/bashmarks
 # # # # # # # # # # # # # # # #
-source ~/dotfiles/tools/bashmarks/bashmarks.sh
+source ~/tools/bashmarks/bashmarks.sh
 
 # # # # # # # # # # # # # # # #
 # Arcanist autocomplete
 # # # # # # # # # # # # # # # #
-source ~/dotfiles/auto_complete/arcanist-completion
+source ~/auto_complete/arcanist-completion
 
 # # # # # # # # # # # # # # # # #
 # This is when using git bash and
@@ -45,11 +47,11 @@ source ~/dotfiles/auto_complete/arcanist-completion
 # Source: https://coderwall.com/p/9fdgsa
 # # # # # # # # # # # # # # # # #
 alias ccat='pygmentize -O style=monokai -f terminal -g'
-source ~/dotfiles/git-prompt.sh
+source ~/git-prompt.sh
 
 export PS1='\[\033[01;32m\]\u\[\033[01;34m\] \w\[\033[31m\]$(__git_ps1 " (%s)")\[\033[01;34m\]$\[\033[00m\] '
 
 # Source: http://code-worrier.com/blog/autocomplete-git/
-if [ -f ~/dotfiles/auto_complete/.git-completion.bash ]; then
-  . ~/dotfiles/auto_complete/.git-completion.bash
+if [ -f ~/auto_complete/.git-completion.bash ]; then
+  . ~/auto_complete/.git-completion.bash
 fi
