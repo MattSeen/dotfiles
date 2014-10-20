@@ -46,7 +46,11 @@ def enforce_pre_commit_policies():
 
 def user_name_email_policy():
     config = ConfigParser.SafeConfigParser()
-    config_file_path = os.getcwd() + "\\.git\\config"
+
+    # os.getcwd() had unexpected behaviour, when working with dotfiles and
+    # non standard core.worktree setting
+    hooks_directory = os.path.abspath(os.path.dirname(__file__))
+    config_file_path = hooks_directory + "\\..\\config"
 
     data = StringIO('\n'.join(line.strip() for line in open(config_file_path)))
     config.readfp(data)
@@ -179,8 +183,6 @@ def policyPrint(message, commands):
 
 def generalPrint(message):
     print textwrap.fill(message, width=80)
-
-
 
 
 if __name__ == '__main__':
