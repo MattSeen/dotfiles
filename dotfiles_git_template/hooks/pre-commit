@@ -1,3 +1,188 @@
-#! /usr/bin/bash
+#!C:/Python27/python.exe
 
-echo "hello world"
+import os
+import sys
+import ConfigParser
+from colorama import Fore
+from StringIO import StringIO
+import string
+import subprocess
+import textwrap
+
+
+class ConsoleCommands(object):
+    """
+        docstring for ConsoleCommands
+    """
+    def __init__(self):
+        super(ConsoleCommands, self).__init__()
+
+    def getGitCoachCommand(self):
+        return "gitcoach"
+
+
+class GitCommands(object):
+    """
+    A list of GIT commands that resolve various issues which conflict with policy
+    restrictions.
+    """
+    def __init__(self):
+        super(GitCommands, self).__init__()
+
+    def getSetUserName(self):
+        return "git config user.name <your name>"
+
+    def getSetUserEmail(self):
+        return "git config user.email <your email>"
+
+
+def enforce_pre_commit_policies():
+    user_name_email_policy()
+    # git_coach_advice()
+
+    # Everyting was fine.
+    sys.exit(0)
+
+
+def user_name_email_policy():
+    config = ConfigParser.SafeConfigParser()
+    config_file_path = os.getcwd() + "\\.git\\config"
+
+    data = StringIO('\n'.join(line.strip() for line in open(config_file_path)))
+    config.readfp(data)
+
+    suggestions = GitCommands()
+
+    if has_user_section(config) == False:
+        policyPrint("The local user NAME and EMAIL were undefined, please define these properties and try again:",
+            [suggestions.getSetUserName(), suggestions.getSetUserEmail()])
+        sys.exit(-1)
+
+    if has_user_name(config) == False:
+        policyPrint("The local user NAME was undefined, please define this and try again:", 
+            [suggestions.getSetUserName()])
+        sys.exit(-1)
+
+    if has_user_email(config) == False:
+        policyPrint("The local user EMAIL was undefined, please define this and try again:", 
+            [suggestions.getSetUserEmail()])
+        sys.exit(-1)
+
+    return True
+
+
+def has_user_section(config):
+    try:
+        items = config.items('user')
+    except ConfigParser.NoSectionError as e:
+        return False
+    else:
+        return True
+
+
+def has_user_name(config):
+    try:
+        items = config.get('user', 'name')
+    except ConfigParser.NoOptionError as e:
+        return False
+    else:
+        return True
+
+
+def has_user_email(config):
+    try:
+        items = config.get('user', 'name')
+    except ConfigParser.NoOptionError as e:
+        return False
+    else:
+        return True
+
+
+def git_coach_advice():
+    files_being_committing = get_committing_file_names()
+
+    if len(files_being_committing) > 0:
+        printFYI()
+
+        generalMessage = "Here is a selection of files that gitcoach has " + \
+        "identified as being connected to the edited files in this commit"
+
+        generalPrint(generalMessage)
+        print("-" * 20)
+
+        printGitcoachFileSuggestions(files_being_committing)
+
+
+def get_git_coach_output(file_name):
+    gitcoach = subprocess.Popen(['gitcoach', '--file', file_name], 
+        stdout=subprocess.PIPE, 
+        stderr=subprocess.PIPE)
+
+    raw_gitcoach_out, gitcoach_err = gitcoach.communicate()
+
+    # Remove the first unecessary line from gitcoach output
+    sanitized_output = raw_gitcoach_out.split("\r\n")[2:]
+
+    return "\n".join(sanitized_output)
+
+
+def get_committing_file_names():
+    p = subprocess.Popen(['git', 'status', "--porcelain"], 
+        stdout=subprocess.PIPE, 
+        stderr=subprocess.PIPE)
+
+    out, err = p.communicate()
+
+    files = out.split("\n")
+
+    sanitized_list = []
+
+    for fileName in files:
+        # Remove the file status, M/D..etc, from output
+        # e.g. M gui/Gemfile
+        sanitized_name = fileName[1:].strip()
+
+        if sanitized_name != "":
+            sanitized_list.append(sanitized_name)
+
+    return sanitized_list
+
+def printFYI():
+    print("-" * 80)
+    print(string.center(Fore.RED + "[FYI: Suggestions before you commit]" + Fore.RESET, 80))
+    print("-" * 80)
+    print("")
+
+def printGitcoachFileSuggestions(files_being_committing):
+    for file_name in files_being_committing:
+        gitcoachOut = get_git_coach_output(file_name)
+
+        if gitcoachOut != "":        
+            print Fore.GREEN + file_name + Fore.RESET
+            print("-" * 20)
+            print(gitcoachOut)
+            print("")
+
+def policyPrint(message, commands):
+    print("-" * 80)
+    print(string.center(Fore.RED + "[Your commit was rejected]" + Fore.RESET, 80))
+    print("-" * 80)
+
+    print ""
+    print Fore.RED + "[POLICY]" + Fore.RESET
+    print ""
+    print message
+
+    for x in commands:
+        print "\t" + Fore.GREEN + x + Fore.RESET        
+
+
+def generalPrint(message):
+    print textwrap.fill(message, width=80)
+
+
+
+
+if __name__ == '__main__':
+    enforce_pre_commit_policies()
+

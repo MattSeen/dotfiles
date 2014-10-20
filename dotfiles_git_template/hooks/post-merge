@@ -1,0 +1,29 @@
+#!C:/Python27/python.exe
+
+import os
+import sys
+from colorama import Fore
+import string
+
+
+def run_git_learn():
+	printFYI("Learning all about the new commits.")
+    gitcoach = subprocess.Popen(['gitlearn', '-n', '20'],stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+   	printFYI("That was very interesting")
+
+
+def printFYI(message):
+    print("-" * 80)
+    print(string.center(Fore.RED + "[FYI:" + message + "]" + Fore.RESET, 80))
+    print("-" * 80)
+    print("")
+
+def enforce_post_receive_methods():
+    # run_git_learn()
+
+    # Everyting was fine.
+    sys.exit(0)
+
+
+if __name__ == '__main__':
+    enforce_pre_commit_policies()
