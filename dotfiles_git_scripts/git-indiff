@@ -1,0 +1,30 @@
+#!/bin/bash
+
+main() {
+    local RESET="\e[0m"
+    local GREEN="\e[32m"
+    local msg="The Following Branches are in differential"
+
+	echo -e "$GREEN$msg$RESET"
+	echo ""
+
+	get_branch_names | get_branches_with_notes
+}
+
+get_branch_names() {
+	echo "$(git branch-dates | gawk '{print $4}')"
+}
+
+get_branches_with_notes() {
+	 while IFS= read -r BRANCH_NAME; do
+		local branchNote=$(git config branch."${BRANCH_NAME}".note)
+
+
+	    if [[ -n "$branchNote" ]]
+	    then
+			echo $BRANCH_NAME;
+	    fi
+	done
+}
+
+main
