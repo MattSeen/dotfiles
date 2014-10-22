@@ -53,6 +53,6 @@ source ~/git-prompt.sh
 export PS1='\[\033[01;32m\]\u\[\033[01;34m\] \w\[\033[31m\]$(__git_ps1 " (%s)")\[\033[01;34m\]$\[\033[00m\] '
 
 # Source: http://code-worrier.com/blog/autocomplete-git/
-if [ -f ~/dotfiles_auto_complete/.git-completion.bash ]; then
-  . ~/dotfiles_auto_complete/.git-completion.bash
+if [ -f ~/dotfiles_auto_complete/git-completion.bash ]; then
+  . ~/dotfiles_auto_complete/git-completion.bash
 fi
