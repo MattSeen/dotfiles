@@ -7,7 +7,7 @@ export GIT_TEMPLATE_DIR=$HOME/dotfiles_git_template/
 # http://danlimerick.wordpress.com/2011/06/10/git-for-windows-tip-setting-shell-aliases-with-msysgit/
 
 alias catn='cat --number'
-alias ls='ls -F --color'
+alias lsf='ls -F --color'
 alias cls='clear'
 alias dir='ls'
 
