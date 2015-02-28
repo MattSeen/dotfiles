@@ -1,5 +1,6 @@
 export PATH=$PATH:$HOME/dotfiles_git_scripts:
 export GIT_TEMPLATE_DIR=$HOME/dotfiles_git_template/
+export GIT_EXTERNAL_DIFF=~/dotfiles_tools/winmerge.sh
 
 eval "$(grunt --completion=bash)"
 
