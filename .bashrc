@@ -1,6 +1,8 @@
 export PATH=$PATH:$HOME/dotfiles_git_scripts:
 export GIT_TEMPLATE_DIR=$HOME/dotfiles_git_template/
 
+eval "$(grunt --completion=bash)"
+
 # Was thinking about command line aliases in general today.
 # Stumbled on this article.
 #
