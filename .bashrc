@@ -1,6 +1,10 @@
+export PATH=$PATH:$HOME/dotfiles_scripts:
 export PATH=$PATH:$HOME/dotfiles_git_scripts:
+export PATH=$PATH:$HOME/dotfiles_svn_scripts:
 export GIT_TEMPLATE_DIR=$HOME/dotfiles_git_template/
 export GIT_EXTERNAL_DIFF=~/dotfiles_tools/winmerge.sh
+
+export SVN_EDITOR=nano
 
 eval "$(grunt --completion=bash)"
 
@@ -11,15 +15,11 @@ eval "$(grunt --completion=bash)"
 
 alias catn='cat --number'
 alias lsf='ls -F --color'
-alias cls='clear'
-alias dir='ls'
 
 # Source: http://justinlilly.com/dotfiles/zsh.html
 alias ..='cd ..'
 alias ...='cd ../..'
 alias ....='cd ../../..'
-
-alias runguard='bundle exec guard'
 
 # # # # # # # # # # # # # # # #
 # Git commands that didn't work in .gitconfig
@@ -39,23 +39,5 @@ source ~/dotfiles_auto_complete/rake.sh
 # # # # # # # # # # # # # # # #
 source ~/dotfiles_tools/bashmarks/bashmarks.sh
 
-# # # # # # # # # # # # # # # #
-# Arcanist autocomplete
-# # # # # # # # # # # # # # # #
-source ~/dotfiles_auto_complete/arcanist-completion
+source ~/dotfiles_svn_scripts/.svnaliases
 
-# # # # # # # # # # # # # # # # #
-# This is when using git bash and
-# ansicon together for better
-# colorizing of output
-# Source: https://coderwall.com/p/9fdgsa
-# # # # # # # # # # # # # # # # #
-alias ccat='pygmentize -O style=monokai -f terminal -g'
-source ~/git-prompt.sh
-
-export PS1='\[\033[01;32m\]\u\[\033[01;34m\] \w\[\033[31m\]$(__git_ps1 " (%s)")\[\033[01;34m\]$\[\033[00m\] '
-
-# Source: http://code-worrier.com/blog/autocomplete-git/
-if [ -f ~/dotfiles_auto_complete/git-completion.bash ]; then
-  . ~/dotfiles_auto_complete/git-completion.bash
-fi
