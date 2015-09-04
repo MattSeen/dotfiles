@@ -1,2 +1,5 @@
 alias svnst='svn status'
 alias svnstroot='svn status $(svnbasedir.sh)'
+
+alias svnincoming='svn diff -rBASE:HEAD --summarize'
+

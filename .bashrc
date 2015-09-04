@@ -6,8 +6,6 @@ export GIT_EXTERNAL_DIFF=~/dotfiles_tools/winmerge.sh
 
 export SVN_EDITOR=nano
 
-eval "$(grunt --completion=bash)"
-
 # Was thinking about command line aliases in general today.
 # Stumbled on this article.
 #
@@ -41,3 +39,31 @@ source ~/dotfiles_tools/bashmarks/bashmarks.sh
 
 source ~/dotfiles_svn_scripts/.svnaliases
 
+source ~/dotfiles_scripts/trelloWrappers
+
+
+mkcd () {
+    mkdir -p $1
+    cd $1
+}
+
+alias cwp="convertWindowsPathToUnix"
+# Source: http://stackoverflow.com/a/13701495/1367612
+
+convertWindowsPathToUnix() {
+    echo $(echo "/$1" | sed -e 's/\\/\//g' -e 's/://')
+}
+
+shuffle() {
+    awk 'BEGIN{srand();} {printf "%06d %s\n", rand()*1000000, $0;}' | sort -n | cut -c8-
+}
+
+reloadProfile() {
+	. ~/.bash_profile
+}
+
+if [ -f ~/.bashrclocal ]; then
+	. ~/.bashrclocal
+else
+	touch ~/.bashrclocal
+fi

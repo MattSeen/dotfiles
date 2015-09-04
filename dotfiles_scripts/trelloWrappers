@@ -1,0 +1,13 @@
+getTrelloBoardId() {
+	 echo $(trello board list -o tsv | grep "$1" | cut -d$'\t' -f 1)
+}
+
+getTrelloListId() {
+	echo $(trello list list -b $(getTrelloBoardId $1) -o tsv | grep "$2" | cut -d$'\t' -f 1)
+}
+
+listTrelloCards() {
+	boardId=$(getTrelloBoardId $1)
+	listId=$(getTrelloListId $1 $2)
+	trello card list -b $boardId -l $listId -o tsv
+}
