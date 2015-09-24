@@ -1,0 +1,8 @@
+# Use "less −r" as my pager
+--pager=less -r
+
+# Always color, even if piping to a another program
+--color
+
+--type-set=pak=.pak
+--type-set=bod=.bod
