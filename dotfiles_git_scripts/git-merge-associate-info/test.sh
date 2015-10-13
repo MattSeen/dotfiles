@@ -19,7 +19,7 @@ rm -fR $testDir
 mkdir $testDir
 
 cd $testDir
-git init
+git init --template="."
 
 touch $testFileName
 
