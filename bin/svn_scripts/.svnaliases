@@ -1,5 +1,63 @@
 alias svnst='svn status'
+alias svnrootdir="svn info | grep 'Working Copy Root Path:' | sed 's/Working Copy Root Path://g'"
 alias svnstroot='svn status $(svnbasedir.sh)'
 
 alias svnincoming='svn diff -rBASE:HEAD --summarize'
 
+alias svnlocalrevision="svn info | grep Revision | tr -d '[:alpha:][:punct:][:space:]'"
+alias svnlocalrevisiondate="svn info | grep \"Last Changed Date:\" | cut --delimiter=\"(\" -f 2 | tr -d \")\""
+alias svnremoteurl="svn info | grep 'Repository Root:' | sed 's/Repository Root://g'"
+
+svnremoterevisiondate () {
+    svn info $(svnremoteurl) | grep "Last Changed Date:" | cut --delimiter='(' -f 2 | tr -d ')'
+}
+
+svnremoterevision () {
+    svn info $(svnremoteurl) | grep Revision | tr -d '[:alpha:][:punct:][:space:]'
+}
+
+svnincominglog () {
+    baseCmd="svn log -v -rHEAD:BASE"
+    runCmd="$baseCmd | less"
+
+    if [ "$#" -gt 1 ]; then
+        echo "Optional parameters"
+        echo "--nopager: turn off the log pager"
+        return
+    fi
+
+    if [ "$#" -gt 0 -a "$1" == "--nopager" ]; then
+        runCmd=$baseCmd
+    fi
+
+    let revisionDifference=$(svnremoterevision)-$(svnlocalrevision)
+
+    echo "BASE: $(svnlocalrevision) $(svnlocalrevisiondate)"
+    echo "HEAD: $(svnremoterevision) $(svnremoterevisiondate)"
+    echo "Difference between BASE & HEAD: $revisionDifference"
+    echo ""
+    eval $runCmd
+}
+
+svnextractinfo () {
+    if [ "$#" -ne 1 ]; then
+        echo "Incorrect usage of command"
+        echo "Usage:"
+        echo "svnextractinfo <INFO PROPERTY>"
+        echo "e.g. svnextractinfo 'URL'"
+        return
+    fi
+
+    param=$1
+    greppedContent=$(svn info | grep "$param" | sed '/^$/d')
+    contentLength=$(echo -e $greppedContent | wc -l)
+
+    if [ "$contentLength" > 1 ]; then
+        echo "Ambigious search '$param', multiple matches in svn info"
+        echo ""
+        echo "$greppedContent"
+        echo "=============================================="
+        svn info
+    fi
+
+}
