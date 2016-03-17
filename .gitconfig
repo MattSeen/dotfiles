@@ -97,11 +97,3 @@
   editor = 'subl.exe' --wait --new-window
 [web]
 	browser = firefox.exe
-
-# Source: http://blog.json.codes/developer-tools/using-winmerge-with-git-in-windows/
-[diff]
-    tool = WinMergeU
-[difftool "WinMergeU"]
-    cmd = WinMergeU.exe -e -ub -x -wl -u -maximise -dl "base" -dr "mine" \"$LOCAL\" \"$REMOTE\"
-[difftool]
-    prompt = false
