@@ -1,9 +1,10 @@
-export PATH=$PATH:$HOME/dotfiles_scripts:
-export PATH=$PATH:$HOME/dotfiles_git_scripts:
-export PATH=$PATH:$HOME/dotfiles_svn_scripts:
-export GIT_TEMPLATE_DIR=$HOME/dotfiles_git_template/
-export GIT_EXTERNAL_DIFF=~/dotfiles_tools/winmerge.sh
+export PATH=$PATH:$HOME/bin/libs:
+export PATH=$PATH:$HOME/bin/git_scripts:
+export PATH=$PATH:$HOME/bin/svn_scripts:
 
+
+export GIT_TEMPLATE_DIR=$HOME/dotfiles_git_template/
+# export GIT_EXTERNAL_DIFF=~/dotfiles_tools/winmerge.sh
 export SVN_EDITOR=nano
 
 # Was thinking about command line aliases in general today.
@@ -29,18 +30,15 @@ alias gitalias="cat ~/.gitconfig | sed -n '/\[alias\]/,/\[core\]/p' | grep -Ev '
 # Rake autocomplete task names
 # Source: https://gist.github.com/MattSeen/7704275
 # # # # # # # # # # # # # # # #
-source ~/dotfiles_auto_complete/rake.sh
+source ~/bin/auto_complete/rake.sh
 
 # # # # # # # # # # # # # # # #
 # Bashmarks include
 # Repo: https://github.com/twerth/bashmarks
 # # # # # # # # # # # # # # # #
-source ~/dotfiles_tools/bashmarks/bashmarks.sh
+source ~/bin/tools/bashmarks/bashmarks.sh
 
-source ~/dotfiles_svn_scripts/.svnaliases
-
-source ~/dotfiles_scripts/trelloWrappers
-
+source ~/bin/svn_scripts/.svnaliases
 
 mkcd () {
     mkdir -p $1
