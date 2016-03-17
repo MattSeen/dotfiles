@@ -36,7 +36,7 @@ source ~/bin/auto_complete/rake.sh
 # Bashmarks include
 # Repo: https://github.com/twerth/bashmarks
 # # # # # # # # # # # # # # # #
-source ~/bin/tools/bashmarks/bashmarks.sh
+source ~/bin/libs/bashmarks/bashmarks.sh
 
 source ~/bin/svn_scripts/.svnaliases
 
