@@ -11,27 +11,10 @@ source $DOTFILE_DIR/bin/utils/functions.sh
 export TEXT_EDITOR_PATH="";
 export EDITOR_CMD="";
 
-# Features
-USING_GIT=false
-USING_SVN=true
-USING_LIBS=true
-USING_AUTOCOMPLETE=true
+export BROWSER_PATH="";
+export BROWSER_CMD="";
 
-if $USING_LIBS; then
-	source $DOTFILE_DIR/bin/libs/.using
-fi
-
-if $USING_GIT; then
-	source $DOTFILE_DIR/bin/git_scripts/.using
-fi
-
-if $USING_SVN; then
-	source $DOTFILE_DIR/bin/svn_scripts/.using
-fi
-
-if $USING_AUTOCOMPLETE; then
-	source $DOTFILE_DIR/bin/auto_complete/.using
-fi
+. $DOTFILE_DIR/bin/utils/dotfileFeatures.sh
 
 # Was thinking about command line aliases in general today.
 # Stumbled on this article.

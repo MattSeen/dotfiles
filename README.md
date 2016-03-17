@@ -25,9 +25,11 @@ I use a number of 3rd party open source projects/scripts. They can be found prim
 Installation
 ============
 
+
 I have been experimenting with different installation methods and found various unworkable draw backs with each. The solution I have settled on is to follow a [guide written by Jason Karns](http://jasonkarns.com/blog/versioning-dotfiles-with-git/). He describes a succinct method of checking out a git repo with out having a .git/ folder in your home directory.
 
-I will post more informative information at a later date.
+	curl https://raw.githubusercontent.com/MattSeen/dotfiles/master/install.sh > install.sh && ./install.sh
+
 
 Environmental variables
 =======================
@@ -40,8 +42,6 @@ TODO
 ====
 
 - [ ] Test
-- [ ] Creating an install script (symbolic links of some kind after checkout)
-- [ ] Get git scripts from work machine
-- [ ] Get git templates from work machine
+- [x] Creating an install script (symbolic links of some kind after checkout)
 - [ ] Error for scripts that aren't present or might mess up
 - [ ] List of necessary tools on the environmental path
