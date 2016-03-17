@@ -1,2 +1,3 @@
-newDir/
-.bashrclocal
+*.local_unversioned
+.bookmarks
+newDir

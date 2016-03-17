@@ -14,7 +14,7 @@ loadLocalCopyOfScript() {
 	local script_path="$1";
 	local script_dir="$(dirname "$1")"
 	local script_name="$(basename "$1")"
-	local unversioned_script_name="${script_dir}/${script_name}local";
+	local unversioned_script_name="${script_dir}/${script_name}.local_unversioned";
 
 	if [ -f $unversioned_script_name ]; then
 		echo "File existed. Loading.";
