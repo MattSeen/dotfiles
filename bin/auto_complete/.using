@@ -1,0 +1,7 @@
+echo "Including feature USING_AUTOCOMPLETE";
+
+# # # # # # # # # # # # # # # #
+# Rake autocomplete task names
+# Source: https://gist.github.com/MattSeen/7704275
+# # # # # # # # # # # # # # # #
+source ~/bin/auto_complete/rake.sh

@@ -1,11 +1,34 @@
-export PATH=$PATH:$HOME/bin/libs:
-export PATH=$PATH:$HOME/bin/git_scripts:
-export PATH=$PATH:$HOME/bin/svn_scripts:
+echo "==================================="
+echo "Hi $USERNAME."
+echo "It's $(date +"%H:%M:%S on the %d-%m-%Y")"
+echo "About to (re)load your dotfile set."
+echo "==================================="
+echo ""
 
+export DOTFILE_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+source $DOTFILE_DIR/bin/utils/functions.sh
 
-export GIT_TEMPLATE_DIR=$HOME/dotfiles_git_template/
-# export GIT_EXTERNAL_DIFF=~/dotfiles_tools/winmerge.sh
-export SVN_EDITOR=nano
+# Features
+USING_GIT=false
+USING_SVN=false
+USING_LIBS=true
+USING_AUTOCOMPLETE=true
+
+if $USING_LIBS; then
+	source $DOTFILE_DIR/bin/libs/.using
+fi
+
+if $USING_GIT; then
+	source $DOTFILE_DIR/bin/git_scripts/.using
+fi
+
+if $USING_SVN; then
+	source $DOTFILE_DIR/bin/svn_scripts/.using
+fi
+
+if $USING_AUTOCOMPLETE; then
+	source $DOTFILE_DIR/bin/auto_complete/.using
+fi
 
 # Was thinking about command line aliases in general today.
 # Stumbled on this article.
@@ -20,26 +43,6 @@ alias ..='cd ..'
 alias ...='cd ../..'
 alias ....='cd ../../..'
 
-# # # # # # # # # # # # # # # #
-# Git commands that didn't work in .gitconfig
-# # # # # # # # # # # # # # # #
-
-alias gitalias="cat ~/.gitconfig | sed -n '/\[alias\]/,/\[core\]/p' | grep -Ev '\[alias\]|\[core\]' | less"
-
-# # # # # # # # # # # # # # # #
-# Rake autocomplete task names
-# Source: https://gist.github.com/MattSeen/7704275
-# # # # # # # # # # # # # # # #
-source ~/bin/auto_complete/rake.sh
-
-# # # # # # # # # # # # # # # #
-# Bashmarks include
-# Repo: https://github.com/twerth/bashmarks
-# # # # # # # # # # # # # # # #
-source ~/bin/libs/bashmarks/bashmarks.sh
-
-source ~/bin/svn_scripts/.svnaliases
-
 mkcd () {
     mkdir -p $1
     cd $1
@@ -52,16 +55,9 @@ convertWindowsPathToUnix() {
     echo $(echo "/$1" | sed -e 's/\\/\//g' -e 's/://')
 }
 
-shuffle() {
-    awk 'BEGIN{srand();} {printf "%06d %s\n", rand()*1000000, $0;}' | sort -n | cut -c8-
-}
-
+# Useful command to help reloading scripts easier.
 reloadProfile() {
 	. ~/.bash_profile
 }
 
-if [ -f ~/.bashrclocal ]; then
-	. ~/.bashrclocal
-else
-	touch ~/.bashrclocal
-fi
+loadLocalCopyOfScript $DOTFILE_DIR/.bashrc

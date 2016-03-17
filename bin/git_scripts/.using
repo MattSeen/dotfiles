@@ -1,0 +1,9 @@
+echo "Including feature USING_GIT";
+export GIT_TEMPLATE_DIR=$HOME/dotfiles_git_template/
+export GIT_EXTERNAL_DIFF=~/dotfiles_tools/winmerge.sh
+export PATH=$PATH:$HOME/bin/git_scripts:
+
+# # # # # # # # # # # # # # # #
+# Git commands that didn't work in .gitconfig
+# # # # # # # # # # # # # # # #
+alias gitalias="cat ~/.gitconfig | sed -n '/\[alias\]/,/\[core\]/p' | grep -Ev '\[alias\]|\[core\]' | less"

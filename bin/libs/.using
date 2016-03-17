@@ -1,0 +1,8 @@
+echo "Including feature USING_LIBS";
+export PATH=$PATH:$HOME/bin/libs:
+
+# # # # # # # # # # # # # # # #
+# Bashmarks include
+# Repo: https://github.com/twerth/bashmarks
+# # # # # # # # # # # # # # # #
+source ~/bin/libs/bashmarks/bashmarks.sh
