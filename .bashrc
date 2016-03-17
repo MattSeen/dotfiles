@@ -8,9 +8,12 @@ echo ""
 export DOTFILE_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 source $DOTFILE_DIR/bin/utils/functions.sh
 
+export TEXT_EDITOR_PATH="";
+export EDITOR_CMD="";
+
 # Features
 USING_GIT=false
-USING_SVN=false
+USING_SVN=true
 USING_LIBS=true
 USING_AUTOCOMPLETE=true
 

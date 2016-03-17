@@ -1,22 +1,63 @@
+alias svnrootdir="svnextractinfo 'Working Copy Root Path'"
+
 alias svnst='svn status'
-alias svnrootdir="svn info | grep 'Working Copy Root Path:' | sed 's/Working Copy Root Path://g'"
-alias svnstroot='svn status $(svnbasedir.sh)'
+alias svnstroot='svn status $(svnrootdir)'
 
 alias svnincoming='svn diff -rBASE:HEAD --summarize'
 
-alias svnlocalrevision="svn info | grep Revision | tr -d '[:alpha:][:punct:][:space:]'"
-alias svnlocalrevisiondate="svn info | grep \"Last Changed Date:\" | cut --delimiter=\"(\" -f 2 | tr -d \")\""
-alias svnremoteurl="svn info | grep 'Repository Root:' | sed 's/Repository Root://g'"
+alias svnlocalrevision="svnextractinfo 'Revision'"
+alias svnlocalrevisiondate="svnextractinfo 'Last Changed Date' | cut --delimiter=\"(\" -f 2 | tr -d \")\""
+alias svnremoteurl="svnextractinfo 'Repository Root'"
 
-svnremoterevisiondate () {
-    svn info $(svnremoteurl) | grep "Last Changed Date:" | cut --delimiter='(' -f 2 | tr -d ')'
+_svnremoterevisiondateHelp="
+    Help Start
+    ---
+    @Description: Get the date of the last revision on the remote SVN server
+    @Usage: svnremoterevisiondate [--help]
+    @Example: svnremoterevisiondate
+    ---
+    Help End
+";
+function svnremoterevisiondate () {
+    _checkForHelpFlag "$FUNCNAME" "$@"
+    if [ $? -eq 0 ]; then
+        local svn_url=$(svnremoteurl);
+        svnExtractInfoSubString "$(svn info $svn_url)" 'Last Changed Date' | cut --delimiter='(' -f 2 | tr -d ')'
+    fi
 }
 
-svnremoterevision () {
-    svn info $(svnremoteurl) | grep Revision | tr -d '[:alpha:][:punct:][:space:]'
+_svnremoterevisionHelp="
+    Help Start
+    ---
+    @Description: Get the revision number of the remote repository
+    @Usage: svnremoterevision [--help]
+    @Example: svnremoterevision
+    ---
+    Help End
+";
+function svnremoterevision () {
+    _checkForHelpFlag "$FUNCNAME" "$@"
+    if [ $? -eq 0 ]; then
+        svnExtractInfoSubString "$(svn info $(svnremoteurl))" "Revision"
+    fi
 }
 
-svnincominglog () {
+_svnincominglogHelp="
+    Help Start
+    ---
+    @Description: Display a list of log messages for commits that will arrive on doing an svn update command
+    @Usage: svnincominglog [--help]
+    @Example: svnincominglog
+    ---
+    Help End
+";
+function svnincominglog () {
+    _checkForHelpFlag "$FUNCNAME" "$@"
+    if [ $? -ne 0 ]; then
+        # Bomb out if there is an error
+        return;
+    fi
+
     baseCmd="svn log -v -rHEAD:BASE"
     runCmd="$baseCmd | less"
 
@@ -39,25 +80,289 @@ svnincominglog () {
     eval $runCmd
 }
 
-svnextractinfo () {
-    if [ "$#" -ne 1 ]; then
+# I wanted to use a Gem called HoC: https://github.com/teamed/hoc but it has bugs on Windows
+# for SVN. So this is something towards the same idea.
+svnHoc() {
+    if [ "$#" -lt 3 ]; then
         echo "Incorrect usage of command"
         echo "Usage:"
-        echo "svnextractinfo <INFO PROPERTY>"
-        echo "e.g. svnextractinfo 'URL'"
+        echo "$FUNCNAME <SUBFOLDER> <DATE RANGE|COMMIT RANGE> <SEARCH> <CREATE TEMP FILES>"
+        echo "e.g. $FUNCNAME Core/CorePortal '{xxxx-xx-xx}:{xxxx-xx-xx}' 'Matthew' Y"
         return
     fi
 
-    param=$1
-    greppedContent=$(svn info | grep "$param" | sed '/^$/d')
-    contentLength=$(echo -e $greppedContent | wc -l)
-
-    if [ "$contentLength" > 1 ]; then
-        echo "Ambigious search '$param', multiple matches in svn info"
-        echo ""
-        echo "$greppedContent"
-        echo "=============================================="
-        svn info
+    local saveTempFiles='N'
+    if [ "$#" -eq 4 ]; then
+        saveTempFiles='Y'
     fi
 
+    local location=$1
+    local dateOrCommitRange=$2
+    local searchString=$3
+
+    local svnLogOutput=$(svn log -r $dateOrCommitRange --search $searchString $location);
+    local revisionNumbers=$(echo -e "$svnLogOutput" | svnExtractRevisionNumber);
+
+    local diffOutput=$(echo "$revisionNumbers" | xargs -L 1 svn diff -c);
+
+    if [ "$saveTempFiles" == "Y" ]; then
+        echo -e "\n1. Saving Temporary File Contenting The Svn Log Output: 'svnHocLogOutput.txt'"
+        echo "$svnLogOutput" > svnHocLogOutput.txt
+
+        echo -e "\n2. Saving Temporary File Contenting The Extracted Commit Revision Numbers: 'svnHocRevisionNumbers.txt'"
+        echo "$revisionNumbers" > svnHocRevisionNumbers.txt
+
+        echo -e "\n3. Saving Temporary Patch File For You: 'svnHocTemp.patch'"
+        echo -e "   You can use the command 'hocReport' and this temporary files together.\n"
+        echo "$diffOutput" > svnHocTemp.patch
+    else
+        echo -e "NOTE: No temporary files saved\n"
+    fi
+
+    hocReport "$diffOutput" "$location"
+}
+
+# Used by svnHoc. Made this because sometimes the network comms with SVN is super slow. I can output
+# the patch file from 'svnHoc' meaning you can play around with it (filter it) and then get the same
+# report with this command.
+hocReport() {
+    if [ "$#" -ne 2 ]; then
+        echo "Incorrect usage of command"
+        echo "Usage:"
+        echo "$FUNCNAME <DIFF CONTENT> <BASE LOCATION FOR DIFF PATHS>"
+        echo "e.g. $FUNCNAME \"\$(cat svnHocTemp.patch)\" \"CorePortal/\""
+        return
+    fi
+
+    local diffOutput=$1
+    local location=$2
+
+    echo "=================="
+    echo "Change Impact Was:"
+    echo "=================="
+    echo "$diffOutput" | diffstat -S "$location" | grep "files changed"
+
+    echo -e ""
+    echo "====================="
+    echo "Across this much code"
+    echo "====================="
+    local diffPaths=$(echo "$diffOutput" | diffstat -l);
+
+    pushd "$location" > /dev/null
+        echo "$diffPaths" | xargs wc -l | grep "total"
+    popd > /dev/null
+
+}
+
+_svnWhoHasLockHelp="
+    Help Start
+    ---
+    @Description: Find out who has a lock on a particular file in the remote repository
+    @Usage: svnWhoHasLock <SVN CHECKOUT FILE PATH> [--help]
+    @Example: svnWhoHasLock coreapp/core/coreportal.js
+    ---
+    Help End
+";
+svnWhoHasLock() {
+    _checkForHelpFlag "$FUNCNAME" "$@"
+    if [ $? -ne 0 ]; then
+        # Bomb out if our help system says to.
+        return;
+    fi
+
+    if [ "$#" -ne 1 ]; then
+        echo "WARNING: You did not provide the correct number of parameters"
+        echo ""
+        _displayHelpText "$FUNCNAME";
+        return
+    fi
+
+    local filePath=$1;
+    local svnURL=$(svnExtractInfoSubString "$(svn info $filePath)" "URL");
+
+    # I was using echo -e here, but everytime I did it it would alway come out to 1 where
+    # it should of been zero.
+    # This is a fast command so I don't see it as a problem right now.
+    contentLength=$(svnExtractInfoSubString "$(svn info $filePath)" "URL" | wc -l);
+
+    if [ "$contentLength" -eq 1 ]; then
+        echo "Checking who has the lock on: $svnURL";
+        svnExtractInfoSubString "$(svn info "$svnURL")" "Lock Owner";
+    else
+        echo "Something went wrong with the file path you passed";
+        svn info $filePath;
+    fi
+}
+
+_svnextractinfoHelp="
+    Help Start
+    ---
+    @Description: Get the date of the last revision on the remote SVN server
+    @Usage: svnextractinfo <INFO PROPERTY> <OPTIONAL FILEPATH> [--help]
+    @Example: svnextractinfo 'URL'
+    ---
+    Help End
+";
+svnextractinfo () {
+    _checkForHelpFlag "$FUNCNAME" "$@"
+    if [ $? -ne 0 ]; then
+        # Bomb out if there is an error
+        return;
+    fi
+
+    if [ "$#" -lt 1 ]; then
+        echo "WARNING: Incorrect usage of command";
+        _displayHelpText "$FUNCNAME";
+        return
+    fi
+
+    local param=$1;
+    local greppedContent=$(svnExtractInfoSubString "$(svn info)" "$param");
+
+    # I was using echo -e here, but everytime I did it it would alway come out to 1 where
+    # it should of been zero.
+    # This is a fast command so I don't see it as a problem right now.
+    local contentLength=$(svnExtractInfoSubString "$(svn info)" "$param" | wc -l)
+
+    if [ $contentLength -eq 1 ]; then
+        echo $greppedContent;
+    else
+        echo "Valid property names:"
+        echo "====================="
+        svn info | cut -d ":" -f 1
+    fi
+}
+
+_svnupdatedepthHelp="
+    Help Start
+    ---
+    @Description: Allow you to selectively update the depth of various SVN folders
+    @Usage: svnupdatedepth [--help]
+    @Example: svnupdatedepth
+    ---
+    Help End
+";
+svnupdatedepth () {
+    _checkForHelpFlag "$FUNCNAME" "$@"
+    if [ $? -ne 0 ]; then
+        # Bomb out if there is an error
+        return;
+    fi
+
+    local updateDepthType="";
+
+    echo "What would you like to change depth too?"
+    select answer in "empty" "immediates" "infinity"; do
+        case $answer in
+            empty )
+                updateDepthType="empty"
+                break;
+                ;;
+            immediates )
+                updateDepthType="immediates"
+                break;
+                ;;
+            infinity )
+                updateDepthType="infinity"
+                break;
+                ;;
+        esac
+    done
+
+    local fileList=$(find * -maxdepth 1 -type d -printf "\"%p\", ")
+
+    local index=1;
+    declare -a chosenDirectories;
+    # Show a menu and ask for input. If the user entered a valid choice,
+    # then invoke the editor on that file
+    select fileName in $fileList; do
+        if [ -n "$fileName" ]; then
+            echo "Okay I will update the depth of $fileName";
+            # Windows bash does not support '+='
+            # chosenDirectories=("${chosenDirectories[@]}" "$fileName");
+            chosenDirectories[$index]="$fileName";
+            index=$index+1;
+        else
+            break;
+        fi
+    done
+
+    for srcDir in "${chosenDirectories[@]}"
+    do
+        echo "About to pushd $srcDir"
+        pushd $srcDir
+        # svn update --set-depth $updateDepthType .;
+        echo "Inside pushd $(pwd)"
+        popd
+        echo "Outside pushd $(pwd)"
+    done;
+}
+
+# This allows you to run any arbitrary command in a subdirectory but it will first pop up
+# to the root of your SVN working directory
+svnRootCmd() {
+    # If the variable does exist, created it, otherwise if it exists carry on.
+    # This way you can turn on debugging of this command by writing:
+    # export DEBUG_SVN_ROOT_CMD=true
+    if [ -z "${DEBUG_SVN_ROOT_CMD+x}" ]; then
+        DEBUG_SVN_ROOT_CMD=false
+    fi
+
+    function localDebugPrint() {
+        if $DEBUG_SVN_ROOT_CMD ; then
+            debugPrint "$@"
+        fi
+    }
+
+    if [[ "$#" -eq 0 ]]; then
+        echo "You did not provide the correct number of parameters"
+        echo "Correct usage: $FUNCNAME <Command Line Tool To Run At Root>"
+        echo "Example: $FUNCNAME arc diff"
+        return
+    fi
+
+    # If we are not in a SVN working copy then we get this error
+    # svn: E155007:
+    local inSvnProject=$( ( svn info 2>&1 ) | grep "E155007" | wc -l )
+    if [[ $inSvnProject -gt 0 ]]; then
+        echo "ERROR: It looks like you are not inside a SVN repostiory?"
+        return;
+    fi
+
+    # Unix Path
+    local localPath=$(pwd)
+    # Windows Path!
+    local svnRoot=$(svnrootdir)
+
+    localDebugPrint "localPath $localPath"
+    localDebugPrint "svnRoot $svnRoot"
+    localDebugPrint "Before pushd: $(pwd)"
+    pushd $svnRoot > /dev/null
+    # echo "Should change to $svnRoot"
+    localDebugPrint "Num Args: $#"
+    localDebugPrint "Args: $@"
+    local commandToRun="$@ $localPath"
+
+    eval $commandToRun
+
+    localDebugPrint "New working dir: $(pwd)"
+    popd > /dev/null
+}
+
+
+# # # # # # # # # # # # # # # # # # # # 
+# Utils
+# # # # # # # # # # # # # # # # # # # # 
+
+# For an svn info text block extra a element such as URL...etc (without the 'URL: ' prefix)
+svnExtractInfoSubString() {
+    local svnInfoText="$1";
+    local extractParam="$2";
+
+    echo "$svnInfoText" | grep "^${extractParam}:" |  sed "s/^${extractParam}\:\s//"
+}
+
+# Pipe log into into me, either log or log -q
+svnExtractRevisionNumber() {
+    grep '|' | cut -d " " -f 1 | tr -d 'r'
 }
