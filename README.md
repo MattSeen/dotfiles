@@ -25,11 +25,21 @@ I use a number of 3rd party open source projects/scripts. They can be found prim
 Installation
 ============
 
-
 I have been experimenting with different installation methods and found various unworkable draw backs with each. The solution I have settled on is to follow a [guide written by Jason Karns](http://jasonkarns.com/blog/versioning-dotfiles-with-git/). He describes a succinct method of checking out a git repo with out having a .git/ folder in your home directory.
 
 	curl https://raw.githubusercontent.com/MattSeen/dotfiles/master/install.sh > install.sh && ./install.sh
 
+
+Working with the git working copy
+=================================
+
+One of the consequences of the installation method above is that when you want to commit changes you've made to the files is the funky core.worktree means being in the dotfiles folder is necessary to do any operations... or is it!?
+
+Recommended alias that will blow your mind:
+
+    alias dit="git --git-dir ~/dotfiles/.git/"
+
+It would be a good idea to throw that into your .bashrc.local_unversioned file. The net result is you can be in your ~ directory and see status and commit changes. Handy.
 
 Environmental variables
 =======================
