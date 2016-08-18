@@ -1,5 +1,6 @@
 echo "Including feature USING_LIBS";
-export PATH=$PATH:$DOTFILE_DIR/bin/libs:
+
+addToPATH "$DOTFILE_DIR/bin/libs";
 
 # # # # # # # # # # # # # # # #
 # Bashmarks include

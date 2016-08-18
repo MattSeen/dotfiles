@@ -1,3 +1,12 @@
+function addToPATH() {
+    local additionalPath="$1";
+    if [[ ":PATH:" != *"$additionalPath"* ]]; then
+        export PATH=$PATH:$additionalPath;
+    else
+        echo "The directory, $additionalPath, is present on the PATH variable already. Not adding.";
+    fi
+}
+
 # Relying on the assumption that you have installed the script the right way.
 _listDotFilesScripts(){
     local cur=${COMP_WORDS[COMP_CWORD]}
@@ -112,3 +121,12 @@ _displayHelpText() {
     # Going to eventually convert the help text into different format (styling/coloring)
     echo "$helpText";
 }
+
+upto() {
+    if [ -z "$1" ]; then
+        return;
+    fi
+    local upto="$1";
+    cd "${PWD/\/$upto\/*//$upto}"
+}
+

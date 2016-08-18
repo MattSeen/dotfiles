@@ -1,6 +1,6 @@
 echo "Including feature USING_SVN";
 
 export SVN_EDITOR=nano
-export PATH=$PATH:$DOTFILE_DIR/bin/svn_scripts:
+addToPATH "$DOTFILE_DIR/bin/svn_scripts";
 
 source $DOTFILE_DIR/bin/svn_scripts/.svnaliases

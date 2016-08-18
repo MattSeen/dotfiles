@@ -1,13 +1,13 @@
-alias svnrootdir="svnextractinfo 'Working Copy Root Path'"
+alias svnrootdir="svnExtractInfo 'Working Copy Root Path'"
 
 alias svnst='svn status'
 alias svnstroot='svn status $(svnrootdir)'
 
 alias svnincoming='svn diff -rBASE:HEAD --summarize'
 
-alias svnlocalrevision="svnextractinfo 'Revision'"
-alias svnlocalrevisiondate="svnextractinfo 'Last Changed Date' | cut --delimiter=\"(\" -f 2 | tr -d \")\""
-alias svnremoteurl="svnextractinfo 'Repository Root'"
+alias svnlocalrevision="svnExtractInfo 'Revision'"
+alias svnlocalrevisiondate="svnExtractInfo 'Last Changed Date' | cut --delimiter=\"(\" -f 2 | tr -d \")\""
+alias svnremoteurl="svnExtractInfo 'Repository Root'"
 
 _svnremoterevisiondateHelp="
     Help Start
@@ -194,16 +194,16 @@ svnWhoHasLock() {
     fi
 }
 
-_svnextractinfoHelp="
+_svnExtractInfoHelp="
     Help Start
     ---
     @Description: Get the date of the last revision on the remote SVN server
-    @Usage: svnextractinfo <INFO PROPERTY> <OPTIONAL FILEPATH> [--help]
-    @Example: svnextractinfo 'URL'
+    @Usage: svnExtractInfo <INFO PROPERTY> <OPTIONAL FILEPATH> [--help]
+    @Example: svnExtractInfo 'URL'
     ---
     Help End
 ";
-svnextractinfo () {
+svnExtractInfo () {
     _checkForHelpFlag "$FUNCNAME" "$@"
     if [ $? -ne 0 ]; then
         # Bomb out if there is an error
@@ -233,16 +233,16 @@ svnextractinfo () {
     fi
 }
 
-_svnupdatedepthHelp="
+_svnUpdateDepthHelp="
     Help Start
     ---
     @Description: Allow you to selectively update the depth of various SVN folders
-    @Usage: svnupdatedepth [--help]
-    @Example: svnupdatedepth
+    @Usage: svnUpdateDepth [--help]
+    @Example: svnUpdateDepth
     ---
     Help End
 ";
-svnupdatedepth () {
+svnUpdateDepth () {
     _checkForHelpFlag "$FUNCNAME" "$@"
     if [ $? -ne 0 ]; then
         # Bomb out if there is an error
@@ -365,4 +365,71 @@ svnExtractInfoSubString() {
 # Pipe log into into me, either log or log -q
 svnExtractRevisionNumber() {
     grep '|' | cut -d " " -f 1 | tr -d 'r'
+}
+
+svnAuthorName() {
+    grep '|' | cut -d " " -f 3
+}
+
+svnFormatLogMessageForMerge() {
+    if [[ "$#" -eq 0 ]]; then
+        echo "You did not provide the correct number of parameters";
+        echo "Correct Usage: $FUNCNAME <REVISION Number>";
+        return
+    fi
+    local targetRevision="$1";
+
+    local msg=$(svn log -r${targetRevision});
+    echo "$msg" | sed 's/^.*/\> &/';
+}
+
+svnExportRevisionFiles() {
+    if [[ "$#" -ne 2 ]]; then
+        echo "You did not provide the correct number of parameters"
+        echo "Correct usage: $FUNCNAME <REVISION NUMBER> <OUTPUT LOCATION>"
+        return
+    fi
+
+    local outputLocation=$2;
+
+    if [ ! -d "$outputLocation" ]; then
+        echo "INFO: Directory does not exist";
+        echo "INFO: Creating it";
+        mkdir "$outputLocation";
+    fi
+
+    if [ "$(ls -A $outputLocation)" ]; then
+        echo "ERROR: The directory you have chosen, '${outputLocation}', is not empty.";
+        echo "Please chose a different directory or delete it's contents";
+        return;
+    fi
+
+    local targetRevision=$1;
+    local prevRevision=$(($targetRevision-1));
+    echo "";
+    echo -e "About to talk to SVN";
+    echo -e "Getting file list of $prevRevision to $targetRevision";
+    echo -e "=====================================================\n";
+
+    local rawCommitFileList=$(svn diff --summarize -r "${prevRevision}:${targetRevision}")
+
+    local commitFileList=$(echo "$rawCommitFileList" | awk '{print $2}' | grep -v -E "^\.");
+
+    echo -e "INFO: Here is the list of files found in that commit";
+    echo -e "====================================================\n";
+    echo "$commitFileList" | cat -n;
+    echo "";
+
+    local IFS='
+    ';
+
+    local count=0;
+    local fileBaseName;
+    for fileToExport in $commitFileList
+    do
+      count=$((count+1));
+      # echo "$count $fileToExport";
+      fileBaseName=$(basename $fileToExport);
+      svn export "-r${targetRevision}" "$fileToExport" "$outputLocation\\$fileBaseName";
+    done
 }
